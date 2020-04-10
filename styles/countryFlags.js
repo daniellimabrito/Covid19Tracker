@@ -270,5 +270,6 @@ export const flags = {
  'South Africa': require('../assets/h240/za.png'),
  'Zambia': require('../assets/h240/zm.png'),
  'Zimbabwe': require('../assets/h240/zw.png'),
+ 'World': require('../assets/h240/icons8-globe-100.png'),
 
 }

@@ -19,7 +19,7 @@ var itemInfo = {};
 class CountryInfo extends Component {
     constructor(props){
         super(props);
-       // console.log(props.navigation.state.params.item);
+        console.log(props.navigation.state.params.item);
         itemInfo = props.navigation.state.params.item;
         console.log(itemInfo);
        

@@ -8,20 +8,33 @@ import CountryDetails from '../screens/countryDetails';
 import CountryMap from '../screens/countryMap';
 import RandomUser from '../screens/randomUser';
 import CountryInfo from '../screens/countryInfo';
+import CountryCharts from '../screens/countryCharts';
 
 const screens = {
+
 
     List : {
         screen : List,
             navigationOptions: (props) =>  {
             return {
             //headerTitle: () => {  },
-            headerTitle: 'COVID-19',
+            headerTitle: 'TRACKER-19',
             headerTintColor: '#fff',
             headerStyle: { backgroundColor: '#074a75' }
             }
             }
     },
+    CountryMap : {
+      screen : CountryMap,
+      navigationOptions: (prop) =>  {
+        return {
+        //headerTitle: () => { },
+        headerTitle: 'Map Info',
+        headerTintColor: '#fff',
+        headerStyle: { backgroundColor: '#074a75' }
+        }       
+      },
+  },
     RandomUser : {
         screen : RandomUser,
             navigationOptions: (props) =>  {
@@ -33,17 +46,7 @@ const screens = {
             }
             }
     },
-    CountryMap : {
-        screen : CountryMap,
-        navigationOptions: (prop) =>  {
-          return {
-          //headerTitle: () => { },
-          headerTitle: 'Map Info',
-          headerTintColor: '#fff',
-          headerStyle: { backgroundColor: '#074a75' }
-          }       
-        },
-    },
+
     CountryDetails : {
         screen : CountryDetails,
         navigationOptions: (prop) =>  {
@@ -66,7 +69,18 @@ const screens = {
           headerStyle: { backgroundColor: '#074a75' }
           }       
         },
-    }
+    },
+    CountryCharts : {
+      screen : CountryCharts,
+      navigationOptions: (prop) =>  {
+        return {
+        //headerTitle: () => { },
+        headerTitle: 'Charts',
+        headerTintColor: '#fff',
+        headerStyle: { backgroundColor: '#074a75' }
+        }       
+      },
+  }
 }
 
 const RootNavigator = createStackNavigator(screens);

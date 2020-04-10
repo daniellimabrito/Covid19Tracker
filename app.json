@@ -9,9 +9,9 @@
       "android",
       "web"
     ],
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
-    "icon": "./assets/hands.png",
+    "icon": "./assets/Covid256.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -24,7 +24,12 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
-    }
+      "supportsTablet": true,
+      "bundleIdentifier": "com.daniellimabrito.covid19tracker"
+    },
+    "android": {
+      "package": "com.daniellimabrito.covid19tracker"
+    },
+    "description": ""
   }
 }

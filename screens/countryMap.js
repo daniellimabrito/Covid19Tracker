@@ -28,14 +28,27 @@ class CountryMap extends React.Component {
             <MapView  
             
             style={styles.map}    
-            region={{ latitude: 42.882004, 
-                longitude: 74.582748, 
+            region={{ latitude: -12.977749, 
+                longitude: -38.501629, 
                 latitudeDelta: 0.0922,          
                 longitudeDelta: 0.0421        
             }}        
                 showsUserLocation={true}      
-            />    
-            <Text>{this.props.country}</Text> 
+            >
+                <MapView.Marker 
+                    coordinate={{
+                        latitude: -12.977749, 
+                        longitude: -38.501629
+                      // latitude: 42.882004, 
+                      // longitude: 74.582748 
+                    }}
+                    title="TEste"
+                    description={"AAAA"}
+                   // title={this.props.country}
+                    //description={this.props.cases}
+                />
+            </MapView>    
+           
         </View>    
         );  
         }}

@@ -14,6 +14,10 @@ import { mdiAccount, mdiArrowTopRight } from '@mdi/js'
 
 var  arrayholder = [];
 
+var  arrayTotal = [];
+
+var globaNumbers = [];
+
 class List extends React.Component {
     constructor(props){
         super(props);
@@ -56,23 +60,49 @@ class List extends React.Component {
     return fetch('https://coronavirus-19-api.herokuapp.com/countries')
         .then((response) => response.json())
         .then((responseJson) => {
-            arrayholder = responseJson;  
+
+          var i,x;
+          var myObj = responseJson;
+            var skill = "World";
+            var test = responseJson[0];
+
+
+            for (i = 0; i < responseJson.length; i++) {
+             
+              if (myObj[i].country == 'World')
+              {
+                globaNumbers = myObj[i];
+                myObj[i] = {};
+               //x += myObj[i];
+              }
+
+              //console.log(myObj[i].country);
+            }
+            //console.log(myObj[0]);
+             //test['Country'] == 'China';
+            // responseJson = x;
+            arrayholder = myObj;  
+            //arrayholder[0] = [];
+            arrayTotal = responseJson;
             this.setState({
             isLoading: false,
             dataSource: JSON.stringify(responseJson),
-            data: responseJson,
+            data: myObj,
             }, function(){
 
             });
             
         })
+        .then((responseJson) => {
+       //  console.log(arrayholder)
+       })
         .catch((error) =>{
             console.error(error);
         });
     }
 
     componentDidMount(){
-        this.getCountriesStatsAsync(); 
+        this.getCountriesStatsAsync();                
     }
 
     filteredItems = (text) => {
@@ -97,7 +127,7 @@ class List extends React.Component {
     }
 
     pressHandler = (items) => {
-       // console.log(items.item.country);
+     //  console.log(items);
         this.props.navigation.navigate('CountryInfo', items);
     }
   
@@ -105,18 +135,52 @@ class List extends React.Component {
       //console.log('Test')
        
         const newData = arrayholder.filter(item => {      
-         // console.log(item.country);
+         
+          if (item.country !== undefined && item.country != 'World') {
           const itemData = `${item.country.toUpperCase()}`;
           
            const textData = text.toUpperCase();
             return itemData.startsWith(textData);
            //return itemData.indexOf(textData) > -1;    
+          }
         });
         
         this.setState({ data: newData });  
       }; 
 
+      setRanking = () => {
+        const array = arrayholder;
+        let valJson= '[{}]';// '[{"Ranking": "", "active": "", "cases": "", "casesPerOneMillion": "", "country": "", "critical": "", "deaths": "", "recovered": "", "todayCases": "", "todayDeaths":""}]';
+        let obj = JSON.parse(valJson);
+        
+        
+      //  arrayholder = arrayholder.sort((a, b) => (a.cases < b.cases) ? 1 : -1)
+        array.forEach(function (item, index) {
+          if (item.country !== undefined) {
+            obj.push({Ranking: index, "active": item.active, "cases": item.cases, "casesPerOneMillion": item.casesPerOneMillion, "country": item.country, "critical": item.critical, "deaths": item.deaths, "recovered": item.recovered, "todayCases": item.todayCases, "todayDeaths": item.todayDeaths});
+            //console.log(item.country + ' ' + item.todayCases);
+           }
+          });
+          
+         // obj.shift();
+          arrayholder = obj; //JSON.stringify(obj);;
+     
+      }
+
     render() {
+
+     //console.log(globaNumbers);
+
+
+    
+      //console.log(activeTotal);
+
+      let item = {country: globaNumbers.country,cases: globaNumbers.cases, active: globaNumbers.active, critical: globaNumbers.critical, deaths: globaNumbers.deaths, recovered: globaNumbers.recovered, todayCases: globaNumbers.todayCases, todayDeaths: globaNumbers.todayDeaths};
+
+      this.setRanking();
+      //arrayholder = arrayholder.sort((a, b) => (a.cases < b.cases) ? 1 : -1)
+      
+     // item = JSON.stringify(item);
      // console.ignoredYellowBox = ['Warning: Each', 'Warning: Failed'];
         const { search } = this.state;
         if(this.state.isLoading){
@@ -147,16 +211,48 @@ class List extends React.Component {
                 />
 
                 </View>
+
+              <View>
+                <TouchableOpacity onPress={() => this.pressHandler({item})} >
+                  <View> 
+                          <Card >
+                                                   
+                                  <Avatar
+                                    rounded
+                                  //  color="green"
+                                   source={flags['World']}
+                                    size='small'
+                                    //icon={{name:'globe', color: 'green', type: 'font-awesome'}}
+                                    //showEditButton
+                                 
+                                  />
+                                  <Text style={globalStyles.titleText}> Total Cases </Text>                               
+                                  <NumberFormat
+
+                              
+                                        value={item.cases}
+                                        displayType={'text'}
+                                        thousandSeparator={true}
+                                        renderText={value => <Text style={globalStyles.titleTextNoPadLeft}>{value}</Text>}               
+                                    />  
+                                  <View style={{paddingHorizontal:30, alignContent:'flex-end', alignSelf: 'flex-end'}}>
+                                    <Icon name='arrow-forward' color='gray' size={34} /> 
+                                  </View>
+                          </Card>
+                          </View>
+                  </TouchableOpacity>
+              </View>
+
               <FlatList style= {styles.gridBody}
                 data={this.state.data}              
-                //data={this.state.dataSource}
+                //data={arrayholder}
                 keyExtractor={(item, index) => item.country}
-                renderItem={({ item }) => (
+                renderItem={({ item, index }) => (
                     
                     <TouchableOpacity onPress={() => this.pressHandler({item})} >
                        <View> 
                         <Card >
-                        
+                        <Text style={globalStyles.titleText}> { item.Ranking == undefined  ? '(' + (index + 1) + ')' : '(' + (item.Ranking +1) + ')' } </Text>  
                                 <Avatar
                                   rounded
                                   source={flags[item.country]}
