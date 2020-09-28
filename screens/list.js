@@ -11,6 +11,7 @@ import CountryInfo from '../screens/countryInfo';
 import { flags } from '../styles/countryFlags';
 import NumberFormat from 'react-number-format';
 import { mdiAccount, mdiArrowTopRight } from '@mdi/js'
+import { NavigationActions, NavigationInjectedProps,withNavigation } from 'react-navigation';
 
 var  arrayholder = [];
 
@@ -18,9 +19,12 @@ var  arrayTotal = [];
 
 var globaNumbers = [];
 
+
+
 class List extends React.Component {
     constructor(props){
         super(props);
+        
 // export default function List({ navigation }) {
         this.state = { 
             search: [], 
@@ -36,7 +40,6 @@ class List extends React.Component {
         console.disableYellowBox = true;
       }
 
-      
 
       setSearchText(event){
         searchText = event.nativeEvent.text;
@@ -76,8 +79,31 @@ class List extends React.Component {
                //x += myObj[i];
               }
 
+              if (myObj[i].country === '') {
+                myObj[i] = [{}];
+              //  myObj.shift();
+                
+              }
+
               //console.log(myObj[i].country);
             }
+           
+            let obj = JSON.parse('[{}]');
+           var myObjRemoveEmpty = myObj.filter((item,index) => {      
+         
+              if (item.country !== undefined && item.country != 'World' && item.country != '') {
+              const itemData = `${item.country.toUpperCase()}`;
+
+              obj.push({Ranking: index > 0? "("+ (index ) + ")": "", "active": item.active, "cases": item.cases, "casesPerOneMillion": item.casesPerOneMillion, "country": item.country, "critical": item.critical, "deaths": item.deaths, "recovered": item.recovered, "todayCases": item.todayCases, "todayDeaths": item.todayDeaths}); 
+                return obj;
+               //return itemData.indexOf(textData) > -1;    
+              }
+            });
+
+            obj.shift();
+            myObj = obj; //myObjRemoveEmpty;
+           // console.log(obj);
+
             //console.log(myObj[0]);
              //test['Country'] == 'China';
             // responseJson = x;
@@ -95,11 +121,18 @@ class List extends React.Component {
         })
         .then((responseJson) => {
        //  console.log(arrayholder)
+       this.setRanking();
        })
         .catch((error) =>{
             console.error(error);
         });
     }
+
+    myAction = (items) => {
+      NavigationActions.navigate('CountryInfo', items);
+      console.log(items);
+      //return nav;
+    };
 
     componentDidMount(){
         this.getCountriesStatsAsync();                
@@ -127,7 +160,10 @@ class List extends React.Component {
     }
 
     pressHandler = (items) => {
-     //  console.log(items);
+      //console.log(NavigationActions);
+    //  NavigationActions.navigate('CountryInfo', items);
+     //  this.myAction(items);
+//     this.props.navigation.navigate('CountryInfo', { screen: 'Settings' });
         this.props.navigation.navigate('CountryInfo', items);
     }
   
@@ -136,7 +172,7 @@ class List extends React.Component {
        
         const newData = arrayholder.filter(item => {      
          
-          if (item.country !== undefined && item.country != 'World') {
+          if (item.country !== undefined && item.country != 'World' && item.country != '') {
           const itemData = `${item.country.toUpperCase()}`;
           
            const textData = text.toUpperCase();
@@ -156,13 +192,13 @@ class List extends React.Component {
         
       //  arrayholder = arrayholder.sort((a, b) => (a.cases < b.cases) ? 1 : -1)
         array.forEach(function (item, index) {
-          if (item.country !== undefined) {
-            obj.push({Ranking: index, "active": item.active, "cases": item.cases, "casesPerOneMillion": item.casesPerOneMillion, "country": item.country, "critical": item.critical, "deaths": item.deaths, "recovered": item.recovered, "todayCases": item.todayCases, "todayDeaths": item.todayDeaths});
+          if (item.country !== '' && item.country !== undefined ) {
+            obj.push({Ranking: item.Ranking, "active": item.active, "cases": item.cases, "casesPerOneMillion": item.casesPerOneMillion, "country": item.country, "critical": item.critical, "deaths": item.deaths, "recovered": item.recovered, "todayCases": item.todayCases, "todayDeaths": item.todayDeaths});
             //console.log(item.country + ' ' + item.todayCases);
            }
           });
           
-         // obj.shift();
+          obj.shift();
           arrayholder = obj; //JSON.stringify(obj);;
      
       }
@@ -252,11 +288,12 @@ class List extends React.Component {
                     <TouchableOpacity onPress={() => this.pressHandler({item})} >
                        <View> 
                         <Card >
-                        <Text style={globalStyles.titleText}> { item.Ranking == undefined  ? '(' + (index + 1) + ')' : '(' + (item.Ranking +1) + ')' } </Text>  
+                        <Text style={globalStyles.titleText}> { item.Ranking == undefined  ? ''  : item.Ranking} </Text>  
                                 <Avatar
                                   rounded
                                   source={flags[item.country]}
                                   size='small'
+                                  backgroundColor='white'
                                   //showEditButton
                                 />
                                 <Text style={globalStyles.titleText}> { item.country }</Text>                               

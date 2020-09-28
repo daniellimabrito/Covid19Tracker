@@ -271,5 +271,11 @@ export const flags = {
  'Zambia': require('../assets/h240/zm.png'),
  'Zimbabwe': require('../assets/h240/zw.png'),
  'World': require('../assets/h240/icons8-globe-100.png'),
+ 'North America': require('../assets/h240/icons8-world-map-continents-100.png'),
+ 'Europe': require('../assets/h240/icons8-world-map-continents-100.png'),
+ 'Asia': require('../assets/h240/icons8-world-map-continents-100.png'),
+ 'South America': require('../assets/h240/icons8-world-map-continents-100.png'),
+ 'Oceania': require('../assets/h240/icons8-world-map-continents-100.png'),
+ 'Africa': require('../assets/h240/icons8-world-map-continents-100.png'),
 
 }

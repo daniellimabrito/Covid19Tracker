@@ -9,21 +9,38 @@ import CountryMap from '../screens/countryMap';
 import RandomUser from '../screens/randomUser';
 import CountryInfo from '../screens/countryInfo';
 import CountryCharts from '../screens/countryCharts';
+import Home from '../screens/home';
+
 
 const screens = {
 
-
-    List : {
-        screen : List,
-            navigationOptions: (props) =>  {
-            return {
-            //headerTitle: () => {  },
-            headerTitle: 'TRACKER-19',
-            headerTintColor: '#fff',
-            headerStyle: { backgroundColor: '#074a75' }
-            }
-            }
+  List : {
+    screen : List,
+        navigationOptions: (props) =>  {
+        return {
+        //headerTitle: () => {  },
+        headerTitle: 'TRACKER-19',
+        headerTintColor: '#fff',
+        headerStyle: { backgroundColor: '#074a75' }
+        }
+      }
+},
+  Home : {
+    screen : Home,
+    navigationOptions: (prop) =>  {
+      return {
+      //headerTitle: () => { },
+      headerTitle: 'Covid',
+      headerTintColor: '#fff',
+      headerStyle: { backgroundColor: '#074a75' }
+      }       
     },
+  },
+
+
+
+
+
     CountryMap : {
       screen : CountryMap,
       navigationOptions: (prop) =>  {
@@ -35,6 +52,7 @@ const screens = {
         }       
       },
   },
+
     RandomUser : {
         screen : RandomUser,
             navigationOptions: (props) =>  {
